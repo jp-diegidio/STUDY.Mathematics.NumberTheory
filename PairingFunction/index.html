@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<!--
+PairingFunction version 1.0.0-alpha
+STUDY.Mathematics.NumberTheory/PairingFunction
+Mathematical Studies: Number Theory: Pairing Function
+
+Copyright (C) 2020 Julio P. Di Egidio (http://julio.diegidio.name)
+PairingFunction is part of the STUDY.Mathematics.NumberTheory collection
+(see https://github.com/jp-diegidio/STUDY.Mathematics.NumberTheory).
+PairingFunction is released under the terms of the GNU-GPLv3 license.
+As usual, NO WARRANTY OF ANY KIND is implied.
+-->
+<head>
+	<meta charset="utf-8">
+	<title>Pairing Function</title>
+	<link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+	<h1>Pairing Function</h1>
+	
+	<div class="layout-row">
+		<div class="graph" data-bind="with: graph">
+			<svg style="display: none" data-bind="visible: true,
+					attr: { viewBox: viewBox }"
+					preserveAspectRatio="xMidYMid meet"
+					stroke="black" stroke-linecap="round" 
+					font-size="2%">
+				<g stroke-width="0.05">
+					<!-- ko foreach: edges -->
+					<line data-bind="attr: { x1: x1, y1: y1, x2: x2, y2: y2 }"></line>
+					<!-- /ko -->
+				</g>
+				<g stroke-width="0.05" data-bind="attr: { fill: labeled() ? 'white' : 'black' }">
+					<!-- ko foreach: nodes -->
+					<circle data-bind="attr: { cx: x, cy: y }" r="0.5"></circle>
+					<!-- /ko -->
+				</g>
+				<!-- ko if: labeled -->
+				<g stroke-width="0" fill="black" text-anchor="middle">
+					<!-- ko foreach: labels -->
+					<text data-bind="attr: { x: x, y: y }, text: t" dy="0.125"></text>
+					<!-- /ko -->
+				</g>
+				<!-- /ko -->
+			</svg>
+		</div>
+	</div>
+	
+	<div class="layout-row">
+		<table class="ctrl" data-bind="with: ctrl">
+			<caption>Controls</caption>
+			<tr>
+				<th class="name">Depth</th>
+				<td class="input">
+					<select disabled data-bind="
+						enable: !busy(), value: depth,
+						options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 32, 64, 128]
+					"></select>
+				</td>
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<th class="name">Reduced</th>
+				<td class="input">
+					<label class="check" title="Reduced">
+						<input class="check" type="checkbox" disabled
+							data-bind="enable: !busy(), checked: reduced">
+					</label>
+				</td>
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<th class="name">Labeled</th>
+				<td class="input">
+					<label class="check" title="Labeled">
+						<input class="check" type="checkbox" disabled
+							data-bind="enable: !busy(), checked: labeled">
+					</label>
+				</td>
+			<!-- </tr> -->
+			<!-- <tr> -->
+				<th class="name ctrl">State</th>
+				<td class="input">
+					<span data-bind="text: !busy() ? 'READY' : 'BUSY...'"
+						>LOADING...</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<p class="footer">
+		&copy; 2020 Julio P. Di Egidio<br>
+		Released under GNU-GPLv3<br>
+		<a href="https://github.com/jp-diegidio/STUDY.Physics.SpecialRelativity"
+			>Project home page</a><br>
+	</p>
+	
+	<script src="scripts/knockout-3.5.1.js"></script>
+	<script src="scripts/calc.js"></script>
+	<script src="scripts/view.js"></script>
+	<script src="scripts/main.js"></script>
+</body>
+</html>
