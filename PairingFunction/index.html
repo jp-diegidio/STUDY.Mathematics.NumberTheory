@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-gb">
 <!--
-PairingFunction version 1.0.0-alpha
+PairingFunction version 1.1.0-alpha
 STUDY.Mathematics.NumberTheory/PairingFunction
 Mathematical Studies: Number Theory: Pairing Function
 
-Copyright (C) 2020 Julio P. Di Egidio (http://julio.diegidio.name)
+Copyright (C) 2020-2021 Julio P. Di Egidio (http://julio.diegidio.name)
 PairingFunction is part of the STUDY.Mathematics.NumberTheory collection
 (see https://github.com/jp-diegidio/STUDY.Mathematics.NumberTheory).
 PairingFunction is released under the terms of the GNU-GPLv3 license.
@@ -17,26 +17,40 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 	<link href="styles/main.css" rel="stylesheet">
 </head>
 <body>
-	<h1>Pairing Function</h1>
-	
-	<div class="layout-row">
+	<div class="layout-header">
+		<h1>Pairing Function</h1>
+	</div>
+
+	<div class="layout-graph">
 		<div class="graph" data-bind="with: graph">
 			<svg style="display: none" data-bind="visible: true,
 					attr: { viewBox: viewBox }"
-					preserveAspectRatio="xMidYMid meet"
-					stroke="black" stroke-linecap="round" 
-					font-size="2%">
-				<g stroke-width="0.05">
+				 preserveAspectRatio="xMidYMid meet"
+				 stroke="black" stroke-linecap="round"
+				 font-size="2%">
+				<!-- ko if: options().showEdges -->
+				<g stroke-width="0.3">
 					<!-- ko foreach: edges -->
 					<line data-bind="attr: { x1: x1, y1: y1, x2: x2, y2: y2 }"></line>
 					<!-- /ko -->
 				</g>
-				<g stroke-width="0.05" data-bind="attr: { fill: labeled() ? 'white' : 'black' }">
+				<!-- /ko -->
+				<!-- ko if: options().showRays -->
+				<g stroke-width="0.06" stroke="red" stroke-dasharray="0.1">
+					<!-- ko foreach: rays -->
+					<line data-bind="attr: { x1: x1, y1: y1, x2: x2, y2: y2 }"></line>
+					<!-- /ko -->
+				</g>
+				<!-- /ko -->
+				<!-- ko if: options().showNodes -->
+				<g stroke-width="0.05" data-bind="
+						attr: { fill: options().showLabels ? 'white' : 'black' }">
 					<!-- ko foreach: nodes -->
 					<circle data-bind="attr: { cx: x, cy: y }" r="0.5"></circle>
 					<!-- /ko -->
 				</g>
-				<!-- ko if: labeled -->
+				<!-- /ko -->
+				<!-- ko if: options().showNodes && options().showLabels -->
 				<g stroke-width="0" fill="black" text-anchor="middle">
 					<!-- ko foreach: labels -->
 					<text data-bind="attr: { x: x, y: y }, text: t" dy="0.125"></text>
@@ -46,56 +60,93 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 			</svg>
 		</div>
 	</div>
-	
-	<div class="layout-row">
+
+	<div class="layout-ctrl">
 		<table class="ctrl" data-bind="with: ctrl">
 			<caption>Controls</caption>
 			<tr>
-				<th class="name">Depth</th>
+				<th class="name">
+					<label for="inDepth" title="Depth">Depth</label>
+				</th>
 				<td class="input">
-					<select disabled data-bind="
-						enable: !busy(), value: depth,
-						options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 32, 64, 128]
+					<select id="inDepth" disabled data-bind="
+						enable: !busy(), value: depth, options: Depths
 					"></select>
+					<button disabled data-bind="
+						enable: !busy() && canIncDepth(), click: incDepth
+					">&plus;</button>
+					<button disabled data-bind="
+						enable: !busy() && canDecDepth(), click: decDepth
+					">&minus;</button>
 				</td>
-			<!-- </tr> -->
-			<!-- <tr> -->
-				<th class="name">Reduced</th>
+				<!-- </tr> -->
+				<!-- <tr> -->
+				<th class="name">
+					<label for="inReduced" title="Reduced">Reduced</label>
+				</th>
 				<td class="input">
-					<label class="check" title="Reduced">
-						<input class="check" type="checkbox" disabled
-							data-bind="enable: !busy(), checked: reduced">
-					</label>
+					<input id="inReduced" class="check" type="checkbox"
+						   disabled data-bind="enable: !busy(), checked: reduced">
 				</td>
-			<!-- </tr> -->
-			<!-- <tr> -->
-				<th class="name">Labeled</th>
+				<!-- </tr> -->
+				<!-- <tr> -->
+				<!--
+				<th class="name">
+					<label for="inNodes" title="Show Nodes">Nodes</label>
+				</th>
 				<td class="input">
-					<label class="check" title="Labeled">
-						<input class="check" type="checkbox" disabled
-							data-bind="enable: !busy(), checked: labeled">
-					</label>
+					<input id="inNodes" class="check" type="checkbox"
+						   disabled data-bind="enable: !busy(), checked: showNodes">
 				</td>
-			<!-- </tr> -->
-			<!-- <tr> -->
+				-->
+				<!-- </tr> -->
+				<!-- <tr> -->
+				<th class="name">
+					<label for="inLabels" title="Show Labels">Labels</label>
+				</th>
+				<td class="input">
+					<input id="inLabels" class="check" type="checkbox"
+						   disabled data-bind="enable: !busy(), checked: showLabels">
+				</td>
+				<!-- </tr> -->
+				<!-- <tr> -->
+				<th class="name">
+					<label for="inEdges" title="Show Edges">Edges</label>
+				</th>
+				<td class="input">
+					<input id="inEdges" class="check" type="checkbox"
+						   disabled data-bind="enable: !busy(), checked: showEdges">
+				</td>
+				<!-- </tr> -->
+				<!-- <tr> -->
+				<th class="name">
+					<label for="inRays" title="Show Rays">Rays</label>
+				</th>
+				<td class="input">
+					<input id="inRays" class="check" type="checkbox"
+						   disabled data-bind="enable: !busy(), checked: showRays">
+				</td>
+				<!-- </tr> -->
+				<!-- <tr> -->
 				<th class="name ctrl">State</th>
-				<td class="input">
-					<span data-bind="text: !busy() ? 'READY' : 'BUSY...'"
-						>LOADING...</span>
+				<td class="value state">
+					<span data-bind="text: !busy() ? 'Ready' : 'Busy...',
+							css: { ready: !busy(), busy: busy() }">Loading...</span>
 				</td>
 			</tr>
 		</table>
 	</div>
-	
-	<p class="footer">
-		&copy; 2020 Julio P. Di Egidio<br>
-		Released under GNU-GPLv3<br>
-		<a href="https://github.com/jp-diegidio/STUDY.Mathematics.NumberTheory"
-			>Project home page</a><br>
-	</p>
-	
+
+	<div class="layout-footer">
+		<p class="footer">
+			&copy; 2020-2021 Julio P. Di Egidio<br>
+			Released under GNU-GPLv3<br>
+			<a href="https://github.com/jp-diegidio/STUDY.Mathematics.NumberTheory">Project home page</a><br>
+		</p>
+	</div>
+
 	<script src="scripts/knockout-3.5.1.js"></script>
-	<script src="scripts/calc.js"></script>
+	<script src="scripts/graph.js"></script>
 	<script src="scripts/view.js"></script>
 	<script src="scripts/main.js"></script>
 </body>

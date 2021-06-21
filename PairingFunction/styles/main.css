@@ -1,9 +1,9 @@
 /*
-PairingFunction version 1.0.0-alpha
+PairingFunction version 1.1.0-alpha
 STUDY.Mathematics.NumberTheory/PairingFunction
 Mathematical Studies: Number Theory: Pairing Function
 
-Copyright (C) 2020 Julio P. Di Egidio (http://julio.diegidio.name)
+Copyright (C) 2020-2021 Julio P. Di Egidio (http://julio.diegidio.name)
 PairingFunction is part of the STUDY.Mathematics.NumberTheory collection
 (see https://github.com/jp-diegidio/STUDY.Mathematics.NumberTheory).
 PairingFunction is released under the terms of the GNU-GPLv3 license.
@@ -11,18 +11,80 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 */
 
 /********************************************************************
+ * Layout styles
+ ********************************************************************/
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+div.layout-header {
+	position: absolute;
+	width: 100%;
+	height: 5em;
+	top: 0;
+	/* border: solid 1px red; */
+}
+
+div.layout-graph {
+	position: absolute;
+	width: 100%;
+	top: 5em;
+	bottom: 9.5em;
+	/* border: solid 1px green; */
+}
+
+div.layout-ctrl {
+	position: absolute;
+	width: 100%;
+	height: 3.5em;
+	bottom: 6em;
+	/* border: solid 1px red; */
+}
+
+div.layout-footer {
+	position: absolute;
+	width: 100%;
+	height: 6.2em;
+	bottom: 0;
+	/* border: solid 1px red; */
+}
+
+div.graph {
+	display: block;
+	position: absolute;
+	left: 2em;
+	right: 2em;
+	top: 1em;
+	bottom: 1em;
+}
+
+p.footer {
+	margin: 1em;
+}
+
+/********************************************************************
  * General styles
  ********************************************************************/
 
 body {
-    font-family: sans-serif;
 	font-size: 100%;
+    font-family: "Noto Sans", Arial, sans;
 	font-weight: normal;
 	font-style: normal;
 	text-align: center;
 	background-color: #080808;
 	color: #e0e0e0;
-	overflow: auto;
 }
 
 a {
@@ -30,14 +92,14 @@ a {
 	color: #6090ff;
 }
 
-a:hover {
-	text-decoration: underline;
-}
+	a:hover {
+		text-decoration: underline;
+	}
 
 h1 {
-	margin-top: 1em;
-	margin-bottom: 0;
 	font-size: 180%;
+	margin: 1em;
+	margin-bottom: 0;
 }
 
 sup {
@@ -45,34 +107,23 @@ sup {
 }
 
 input {
-	font-family: sans-serif;
 	padding: 0.1em 0.2em 0;
+	font-family: "Noto Sans", Arial, sans;
 	background-color: #f0f0f0;
 }
 
-	input[type=range] {
-		height: 1.5em;
-		background-color: transparent;
-	}
-
 select {
-	font-family: sans-serif;
 	padding-left: 0.2em;
+	font-family: "Noto Sans", Arial, sans;
 	background-color: #f0f0f0;
 }
 
 button {
-	font-family: sans-serif;
+	line-height: 0.8;
+	padding: 0.2em 0.4em;
+	font-family: "Noto Sans", Arial, sans;
 	font-weight: bold;
-}
-
-div.layout-row {
-	white-space: nowrap;
-}
-
-div.graph {
-	display: block;
-	margin: 1em auto;
+	text-align: center;
 }
 
 table {
@@ -101,12 +152,9 @@ th, td {
 	font-weight: normal;
 }
 
-p {
-	line-height: 1.5;
-}
-
-.footer {
+p.footer {
 	font-size: 90%;
+	line-height: 1.5;
 }
 
 /********************************************************************
@@ -114,8 +162,6 @@ p {
  ********************************************************************/
 
 div.graph {
-	width: 60em;
-	height: 31em;
 	padding: 0.1em;
 	border-width: 0.1em;
 	border-style: outset;
@@ -132,30 +178,48 @@ div.graph svg {
  * Ctrl styles
  ********************************************************************/
 
-table.ctrl tr {
-	font-size: 90%;
-	height: 2em;
+table.ctrl {
 }
 
 	table.ctrl th.ctrl,
 	table.ctrl td.ctrl {
 		font-style: italic;
 	}
-
+	
 	table.ctrl th.name {
 	}
-
+	
 	table.ctrl td.input {
-		padding-left: 0.5em;
+		padding-left: 0.3em;
 		padding-right: 1.5em;
 		text-align: left;
 	}
-
-		table.ctrl td.input label.check {
-			font-size: 90%;
-			margin: 0 0.3em;
+	
+		table.ctrl td.input input.check {
+			margin: 0;
 		}
-
-			table.ctrl td.input input.check {
-				margin: 0;
-			}
+	
+		table.ctrl td.input select#inDepth {
+			width: 4em;
+		}
+	
+	table.ctrl td.value {
+		padding-left: 0.3em;
+		padding-right: 1.5em;
+		text-align: left;
+	}
+		
+		table.ctrl td.value .ready {
+			font-weight: bold;
+			color: green;
+		}
+		
+		table.ctrl td.value .busy {
+			font-weight: bold;
+			color: red;
+		}
+	
+		table.ctrl td.value.state {
+			width: 5em;
+			font-variant: small-caps;
+		}
