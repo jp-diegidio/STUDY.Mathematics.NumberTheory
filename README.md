@@ -17,6 +17,6 @@ very welcome.
 At the moment this repository contains the following studies:
 
 - **Pairing Function**  
-  (PairingFunction version 1.1.0-alpha)
+  (PairingFunction version 1.1.1-alpha)
   - [Demo app](https://jp-diegidio.github.io/STUDY.Mathematics.NumberTheory/PairingFunction/index.html)
   - [Source code](https://github.com/jp-diegidio/STUDY.Mathematics.NumberTheory/blob/master/PairingFunction)

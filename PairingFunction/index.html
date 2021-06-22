@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-gb">
 <!--
-PairingFunction version 1.1.0-alpha
+PairingFunction version 1.1.1-alpha
 STUDY.Mathematics.NumberTheory/PairingFunction
 Mathematical Studies: Number Theory: Pairing Function
 
@@ -61,10 +61,41 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 		</div>
 	</div>
 
+	<div class="layout-math">
+		<div class="math"
+			 style="display: none"
+			 data-bind="visible: ctrl.showMaths()">
+			<p>
+				Euclid's <b>GCD</b> on non-negative integers:<br>
+				\$$
+				\operatorname{gcd}(a, b) \in
+				\mathbb{N}^{\ge0} \!\times\! \mathbb{N}^{\ge0} \to
+				\mathbb{N}^{\ge0} \equiv
+				\begin{cases}
+				\operatorname{gcd}(b, a \bmod b) & \text{if} \ b \ne 0 \\
+				a & \text{otherwise}
+				\end{cases}
+				\$$
+				NOTE: \$ \operatorname{gcd}(0, 0) = 0 \$<br>
+			</p>
+			<p>
+				<b>Coprime</b> on non-negative integers:<br>
+				\$$
+				\operatorname{coprime}(a, b) \in
+				\mathbb{N}^{\ge0} \!\times\! \mathbb{N}^{\ge0} \to
+				\mathbb{B} \equiv
+				\operatorname{gcd}(a, b) \le 1
+				\$$
+				NOTE: \$ \operatorname{coprime}(0, 0) = \top \$<br>
+			</p>
+		</div>
+	</div>
+
 	<div class="layout-ctrl">
 		<table class="ctrl" data-bind="with: ctrl">
 			<caption>Controls</caption>
 			<tr>
+				<!-- <tr> -->
 				<th class="name">
 					<label for="inDepth" title="Depth">Depth</label>
 				</th>
@@ -128,11 +159,21 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 				</td>
 				<!-- </tr> -->
 				<!-- <tr> -->
+				<th class="name">
+					<label for="inMaths" title="Show Maths">Maths</label>
+				</th>
+				<td class="input">
+					<input id="inMaths" class="check" type="checkbox"
+						   disabled data-bind="enable: !busy(), checked: showMaths">
+				</td>
+				<!-- </tr> -->
+				<!-- <tr> -->
 				<th class="name ctrl">State</th>
 				<td class="value state">
 					<span data-bind="text: !busy() ? 'Ready' : 'Busy...',
 							css: { ready: !busy(), busy: busy() }">Loading...</span>
 				</td>
+				<!-- </tr> -->
 			</tr>
 		</table>
 	</div>
@@ -145,6 +186,7 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 		</p>
 	</div>
 
+	<script src="scripts/lib/mathjax/tex-svg.js" async></script>
 	<script src="scripts/lib/knockout-3.5.1.js"></script>
 	<script src="scripts/app/graph.js"></script>
 	<script src="scripts/app/view.js"></script>

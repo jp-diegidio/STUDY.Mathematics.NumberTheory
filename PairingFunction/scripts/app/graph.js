@@ -1,5 +1,5 @@
 /*
-PairingFunction version 1.1.0-alpha
+PairingFunction version 1.1.1-alpha
 STUDY.Mathematics.NumberTheory/PairingFunction
 Mathematical Studies: Number Theory: Pairing Function
 

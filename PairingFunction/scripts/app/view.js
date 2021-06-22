@@ -1,5 +1,5 @@
 /*
-PairingFunction version 1.1.0-alpha
+PairingFunction version 1.1.1-alpha
 STUDY.Mathematics.NumberTheory/PairingFunction
 Mathematical Studies: Number Theory: Pairing Function
 
@@ -65,6 +65,7 @@ As usual, NO WARRANTY OF ANY KIND is implied.
 		this.showLabels = new $ko.observable(Options.showLabels);
 		this.showEdges = new $ko.observable(Options.showEdges);
 		this.showRays = new $ko.observable(Options.showRays);
+		this.showMaths = new $ko.observable(Options.showMaths);
 		this.busy = new $ko.pureComputed(_busy);
 
 		this.depth.subscribe(update);
